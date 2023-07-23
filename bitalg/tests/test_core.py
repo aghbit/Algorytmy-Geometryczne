@@ -2,7 +2,7 @@ class TestCore:
     def __init__(self):
         self.tests_in = [[-1, -1, -1, -1],  # number of tests in [lab-1 = row][task-1 = column]
                          [-1, -1, -1, -1],  # lab 2
-                         [ 3, 3, 3],      # lab 3
+                         [3, 3, 3],      # lab 3
                          [-1, -1, -1, -1]]  # lab 4
     # ewentualnie /\ to /\ można usunąć i zrobić na podstawie ilości plików w folderach, ale wtedy trzeba
     # się dogadać jak ma wyglądać budowa drzewo folderów (przykład na branch'u lab_3_tests, implementacja niżej w """).
@@ -21,7 +21,7 @@ class TestCore:
                 counter += 1
             else:
                 print("WRONG ANSWER")
-                print("\t\tOutput: {}".format(output))
+                print("\t\tOutput:   {}".format(output))
                 print("\t\tExpected: {}".format(expected))
                 
         """
