@@ -399,8 +399,183 @@ def triangulation(points):
             stack.append(p)
             stack.append(points[i])
 
-    return diagonals
+    return tuple(set(diagonals))
 
 x.runtest(3, triangulation)
+# end ---------------------------------------------------------------------------------------------------------
+"""
+# krzysiek
+"""
+# task 1 test --------------------------------------------------------------------------------------------------------
+import numpy as np
+START = 0
+END = 1
+JOIN = 2
+DIV = 3
+CORRECT = 4
+
+TOL = 10e-14
+
+def det3x3(matrix):
+    return (matrix[0, 0] * matrix[1, 1] * matrix[2, 2] +
+            matrix[1, 0] * matrix[2, 1] * matrix[0, 2] +
+            matrix[2, 0] * matrix[0, 1] * matrix[1, 2] -
+            matrix[2, 0] * matrix[1, 1] * matrix[0, 2] -
+            matrix[1, 0] * matrix[0, 1] * matrix[2, 2] -
+            matrix[0, 0] * matrix[2, 1] * matrix[1, 2])
+
+def det(a, b, c):
+    matrix = np.array([[a[0], a[1], 1], [b[0], b[1], 1], [c[0], c[1], 1]])
+    return det3x3(matrix)
+
+def plot_to_lines(plot):
+    return plot.get_added_figure()[0].lines
+
+def lines_to_points(lines):
+    return [x[0] for x in lines]
+
+def index_of_max_y(points):
+    max_y = float('-inf')
+    index = -1
+    for i in range(len(points)):
+        if points[i][1] > max_y:
+            max_y = points[i][1]
+            index = i
+    return index
+
+def index_of_min_y(points):
+    min_y = float('inf')
+    index = -1
+    for i in range(len(points)):
+        if points[i][1] < min_y:
+            min_y = points[i][1]
+            index = i
+    return index
+
+
+def monoton(points):
+    n = len(points)
+    max_y_index = index_of_max_y(points)
+    min_y_index = index_of_min_y(points)
+
+    # Left branch
+    previous_index = max_y_index
+    while previous_index != min_y_index:
+        current_index = previous_index + 1
+        if current_index == n:
+            current_index = 0
+        if points[previous_index][1] <= points[current_index][1]:
+            return False
+        previous_index = current_index
+
+    # Right branch
+    previous_index = max_y_index
+    while previous_index != min_y_index:
+        current_index = previous_index - 1
+        if current_index == -1:
+            current_index = n - 1
+        if points[previous_index][1] <= points[current_index][1]:
+            return False
+        previous_index = current_index
+
+    return True
+
+
+x = Test()
+x.runtest(1, monoton)
+# task 2 test --------------------------------------------------------------------------------------------------------
+def mark_points(points):
+    n = len(points)
+    marked_points = [-1]*n
+
+    current = 0
+    n1 = n - 1
+    n2 = 1
+
+    for current in range(n):
+        n1 = current - 1
+        n2 = current + 1
+
+        if n1 == -1: n1 = n - 1
+        if n2 == n: n2 = 0
+
+        if points[n1][1] > points[current][1] > points[n2][1] or points[n1][1] < points[current][1] < points[n2][1]:
+            marked_points[current] = CORRECT
+        elif points[n1][1] > points[current][1] and points[n2][1] > points[current][1]:
+            if det(points[n1], points[current], points[n2]) > TOL:
+                marked_points[current] = END
+            else:
+                marked_points[current] = JOIN
+        else:
+            if det(points[n1], points[current], points[n2]) > TOL:
+                marked_points[current] = START
+            else:
+                marked_points[current] = DIV
+
+    return marked_points
+x.runtest(2, mark_points)
+# task 3 test --------------------------------------------------------------------------------------------------------
+
+def belongs(v1, v2, v3, branch):
+    if branch == 1:
+        return det(v1, v2, v3) > 0
+    else:
+        return det(v1, v2, v3) < 0
+
+
+def triangulate(points):
+    if not monoton(points):
+        print("Non-monotonous figure provided!")
+        return None
+
+    max_y_index = index_of_max_y(points)
+    min_y_index = index_of_min_y(points)
+    b_points = []
+    for i in range(len(points)):
+        if min_y_index < i <= max_y_index:
+            b_points.append((points[i], 0))
+        else:
+            b_points.append((points[i], 1))
+
+    b_points.sort(reverse=True, key=lambda k: (k[0][1], k[0][0], k[1]))
+
+    diagonals = []
+    stack = []
+
+    stack.append(b_points[0])
+    stack.append(b_points[1])
+
+    diagonals.append([points.index(b_points[0][0]), points.index(b_points[1][0])])
+
+    for i in range(2, len(b_points)):
+        if stack[-1][1] != b_points[i][1]:
+            while len(stack) > 0:
+                u = stack.pop()
+                diagonals.append([points.index(u[0]), points.index(b_points[i][0])])
+            stack.append(b_points[i - 1])
+            stack.append(b_points[i])
+        else:
+            u = stack.pop()
+            diagonals.append([points.index(b_points[i][0]), points.index(u[0])])
+            while len(stack) > 0 and belongs(b_points[i][0], stack[-1][0], u[0], b_points[i][1]):
+                diagonals.append([points.index(stack[-1][0]), points.index(b_points[i][0])])
+                u = stack.pop()
+
+            stack.append(u)
+            stack.append(b_points[i])
+    
+    diag = []
+    for i in range(len(diagonals)):
+        flag = 1
+        if diagonals[i][0]+1 == diagonals[i][1] or diagonals[i][0] == diagonals[i][1]+1:
+            flag = 0
+        if diagonals[i][0] == 0 and diagonals[i][1] == len(points)-1 or diagonals[i][0] == len(points)-1 and diagonals[i][1] == 0:
+            flag = 0
+        if flag:
+            diag.append(diagonals[i])
+    
+    return diag
+x.runtest(3, triangulate)
+
 # end ---------------------------------------------------------------------------------------------------------
 """
