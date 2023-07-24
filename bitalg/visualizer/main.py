@@ -8,10 +8,10 @@ class Visualizer():
         self.points_array = []
         self.line_segments_array = []
 
-    def draw_points(self, points, color=None):
+    def add_points(self, points, color=None):
         self.points_array.append((points, color))
 
-    def draw_line_segments(self, line_segments, color=None):
+    def add_line_segments(self, line_segments, color=None):
         self.line_segments_array.append((line_segments, color))
 
     def show(self):
@@ -30,5 +30,5 @@ class Visualizer():
             ax.add_collection(line_collection)
 
         ax.autoscale()
-        
+
         fig.show(warn=False)
