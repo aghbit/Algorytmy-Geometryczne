@@ -22,7 +22,7 @@ class Test(TestCore):
         Output = open("test3_tests\\task1\\test_3_1_{}.out".format(test_no), "r").read()
         Result = func(Input)
         if str(Result) == Output:
-            return 1, Result, Output
+            return 1, None
         return 0, Result, Output
 
     # vertex classification (początkowe, końcowe, łączące, dzielące i prawidłowe)
@@ -31,7 +31,7 @@ class Test(TestCore):
         Output = list(map(int, open("test3_tests\\task2\\test_3_2_{}.out".format(test_no), "r").read().split("\n")))
         Result = func(Input)
         if Result == Output:
-            return 1, Result, Output
+            return 1, None
         return 0, Result, Output
 
     # triangulation with steps
@@ -64,7 +64,7 @@ class Test(TestCore):
         for i in range(len(Output)):
             if not Check_R[i]:
                 return 0, Result, Output
-        return 1, Result, Output
+        return 1, None
 
 # julek
 """
@@ -575,7 +575,7 @@ def triangulate(points):
             diag.append(diagonals[i])
     
     return diag
-x.runtest(3, triangulate)
+#x.runtest(3, triangulate)
 
 # end ---------------------------------------------------------------------------------------------------------
 """
