@@ -14,7 +14,7 @@ class Visualizer():
     def add_line_segments(self, line_segments, color=None):
         self.line_segments_array.append((line_segments, color))
 
-    def show(self):
+    def __build_plot(self):
         fig, ax = plt.subplots()
 
         ax.set_xlabel('x')
@@ -31,6 +31,10 @@ class Visualizer():
 
         ax.autoscale()
 
+        return fig, ax
+
+    def show(self):
+        fig, _ = self.__build_plot()
         fig.show(warn=False)
 
     # save informations about points and line segments of current Visualizer in file of given name $file_name
@@ -44,12 +48,11 @@ class Visualizer():
             for line_segments, color in self.line_segments_array:
                 file.write(color)
                 file.write(line_segments)
-        
-    
+
     def _clear(self):
         self.points_array.clear()
         self.line_segments_array.clear()
-    
+
     # clear current visualizer and fill it with elements from file of given name
     def open_plot(self, file_name):
         self._clear()
