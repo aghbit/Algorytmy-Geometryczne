@@ -1,18 +1,65 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
-
+import matplotlib.animation as animation
+from copy import copy
 
 class Visualizer():
     def __init__(self):
         self.points_array = []
         self.line_segments_array = []
+        self.frames_stamps = []
 
     def add_points(self, points, color=None):
         self.points_array.append((points, color))
 
     def add_line_segments(self, line_segments, color=None):
         self.line_segments_array.append((line_segments, color))
+
+    def new_frame(self):
+        self.frames_stamps.append((len(self.points_array), len(self.line_segments_array)))
+
+
+    def save_gif(self, interval=400):
+        fig, ax = plt.subplots()
+
+        frame = 0
+        frames_count = len(self.frames_stamps)
+        points_idx = 0
+        lines_idx = 0
+
+        artists = []
+        artist_frame = []
+
+        artist_x = ax.set_xlabel('x')
+        artist_y = ax.set_ylabel('y')
+
+        artist_frame.append(artist_x)
+        artist_frame.append(artist_y)
+
+        while frame < frames_count:
+            points_idx_last, lines_idx_last = self.frames_stamps[frame]
+            while points_idx < points_idx_last:
+                points, color = self.points_array[points_idx]
+                points = np.array(points)
+                points_artist = ax.scatter(points[:, 0], points[:, 1], color=color)
+                artist_frame.append(points_artist)
+                points_idx += 1
+
+            while lines_idx < lines_idx_last:
+                line_segments, color = self.line_segments_array[lines_idx]
+                line_segments = np.array(line_segments)
+                line_collection = LineCollection(line_segments, color=color)
+                lines_artist = ax.add_collection(line_collection)
+                artist_frame.append(lines_artist)
+                lines_idx += 1
+
+            artists.append(copy(artist_frame))
+            frame += 1
+
+
+        anim = animation.ArtistAnimation(fig=fig, artists=artists, interval=interval)
+        anim.save(filename="/tmp/pillow_example.gif", writer="pillow")
 
     def __build_plot(self):
         fig, ax = plt.subplots()
