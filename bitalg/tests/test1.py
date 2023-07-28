@@ -74,39 +74,3 @@ class Test(TestCore):
                     return 0, "{}".format(Result), "{}".format(
                         linalg.det(array([[a[0] - c[0], a[1] - c[1]], [b[0] - c[0], b[1] - c[1]]])))
             return 1, None
-
-"""
-# test ------------------------------------------------------------------------------------------------
-import numpy
-def a(r, t):
-    return numpy.random.uniform(r, t, size=[10 ** 5, 2])
-
-
-def c():
-    data_c = [None for _ in range(1000)]
-    for i in range(1000):
-        alpha = 2 * numpy.pi * numpy.random.random_sample()
-        data_c[i] = (100 * numpy.cos(alpha), 100 * numpy.sin(alpha))
-    return data_c
-
-
-def d():
-    data_d = [None for _ in range(1000)]
-    for i in range(1000):
-        x = numpy.random.uniform(-1000, 1000)
-        data_d[i] = (x, 0.05 * x + 0.05)
-    return data_d
-
-
-def m3(a, b, c):
-    return linalg.det(numpy.array([[a[0], a[1], 1], [b[0], b[1], 1], [c[0], c[1], 1]]))
-
-
-def m2(a, b, c):
-    return linalg.det(numpy.array([[a[0] - c[0], a[1] - c[1]], [b[0] - c[0], b[1] - c[1]]]))
-
-
-x = Test()
-x.runtest(1, a, c, d)
-x.runtest(2, m3, m2)
-"""
