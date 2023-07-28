@@ -19,8 +19,7 @@ class Visualizer():
     def new_frame(self):
         self.frames_stamps.append((len(self.points_array), len(self.line_segments_array)))
 
-
-    def save_gif(self, interval=400):
+    def make_gif(self, interval=600):
         fig, ax = plt.subplots()
 
         frame = 0
@@ -39,6 +38,7 @@ class Visualizer():
 
         while frame < frames_count:
             points_idx_last, lines_idx_last = self.frames_stamps[frame]
+
             while points_idx < points_idx_last:
                 points, color = self.points_array[points_idx]
                 points = np.array(points)
@@ -57,9 +57,11 @@ class Visualizer():
             artists.append(copy(artist_frame))
             frame += 1
 
+        self.anim = animation.ArtistAnimation(fig=fig, artists=artists, interval=interval, blit=False)
+        plt.show()
 
-        anim = animation.ArtistAnimation(fig=fig, artists=artists, interval=interval)
-        anim.save(filename="/tmp/pillow_example.gif", writer="pillow")
+    def save_gif(self, filename):
+        self.anim.save(filename=filename, writer="pillow")
 
     def __build_plot(self):
         fig, ax = plt.subplots()
