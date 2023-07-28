@@ -30,4 +30,4 @@ class TestCore:
                 print("\t\tOutput:   {}".format(output_expected[0]))
                 print("\t\tExpected: {}".format(output_expected[1]))
 
-        print("Result: {}/{}\n".format(counter, self.tests_in[lab_no - 1][task_no - 1]))
+        print("Result: {}/{}".format(counter, self.tests_in[lab_no - 1][task_no - 1]))

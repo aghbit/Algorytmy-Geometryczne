@@ -1,14 +1,14 @@
+import timeit
 from .test_core import TestCore
 from numpy import linalg, array
 from random import uniform
 
-
 class Test(TestCore):
     def runtest(self, task_no, *func):
         if task_no == 1:
-            TestCore.test(self, 1, 1, self.task1_func, *func)
+            print("Time: {}s\n".format(round(timeit.timeit(lambda: TestCore.test(self, 1, 1, self.task1_func, *func), number=1), 3)))
         else:
-            TestCore.test(self, 1, 2, self.task2_func, *func)
+            print("Time: {}ms\n".format(round(1000*timeit.timeit(lambda: TestCore.test(self, 1, 2, self.task2_func, *func), number=1), 3)))
 
     # 10**5 z zakresu [-1000, 1000]
     # 10**5 z zakresu [-10**14, 10**14]

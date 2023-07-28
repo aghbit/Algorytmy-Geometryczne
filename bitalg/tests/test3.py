@@ -1,13 +1,14 @@
+import timeit
 from .test_core import TestCore
 
 class Test(TestCore):
     def runtest(self, task_no, func):
         if task_no == 1:
-            TestCore.test(self, 3, 1, self.task1_func, func)
+            print("Time: {}ms\n".format(round(1000*timeit.timeit(lambda: TestCore.test(self, 3, 1, self.task1_func, func), number=1), 3)))
         elif task_no == 2:
-            TestCore.test(self, 3, 2, self.task2_func, func)
+            print("Time: {}ms\n".format(round(1000*timeit.timeit(lambda: TestCore.test(self, 3, 2, self.task2_func, func), number=1), 3)))
         else:
-            TestCore.test(self, 3, 3, self.task3_func, func)
+            print("Time: {}ms\n".format(round(1000*timeit.timeit(lambda: TestCore.test(self, 3, 3, self.task3_func, func), number=1), 3)))
 
     def read_data(self, task_no, test_no):
         Points = []
