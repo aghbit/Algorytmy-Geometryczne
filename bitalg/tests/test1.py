@@ -1,21 +1,21 @@
-from test_core import TestCore
-from numpy import linalg
+from .test_core import TestCore
+from numpy import linalg, array
 from random import uniform
-import numpy
 
 
 class Test(TestCore):
-    def runtest(self, task_no, EPS, *func):
+    def runtest(self, task_no, *func):
         if task_no == 1:
-            TestCore.test(self, 1, 1, self.task1_func, EPS, *func)
+            TestCore.test(self, 1, 1, self.task1_func, *func)
         else:
-            TestCore.test(self, 1, 2, self.task2_func, EPS, *func)
+            TestCore.test(self, 1, 2, self.task2_func, *func)
 
     # 10**5 z zakresu [-1000, 1000]
     # 10**5 z zakresu [-10**14, 10**14]
     # 1000 z okręgu (S=(0,0), r=100)
     # 1000 z [-1000, 1000] na prostej wektora ([-1, 0], [1, 0.1])
-    def task1_func(self, test_no, EPS, *func):
+    def task1_func(self, test_no, *func):
+        EPS = 10 ** -10
         if test_no == 1:
             Result = func[0](-1000, 1000)
             if len(Result) != 10 ** 5:
@@ -55,28 +55,29 @@ class Test(TestCore):
             return 1, None
 
     # matrix determinant
-    def task2_func(self, test_no, EPS, *func):
+    def task2_func(self, test_no, *func):
+        EPS = 10 ** -10
         if test_no == 1:
             Input = [[[uniform(-100, 100), uniform(-100, 100)] for _ in range(3)] for _ in range(10)]
             for a, b, c in Input:
                 Result = func[0](a, b, c)
-                if abs(Result - linalg.det(numpy.array([[a[0], a[1], 1], [b[0], b[1], 1], [c[0], c[1], 1]]))) > EPS:
+                if abs(Result - linalg.det(array([[a[0], a[1], 1], [b[0], b[1], 1], [c[0], c[1], 1]]))) > EPS:
                     return 0, "{}".format(Result), "{}".format(
-                        linalg.det(numpy.array([[a[0], a[1], 1], [b[0], b[1], 1], [c[0], c[1], 1]])))
+                        linalg.det(array([[a[0], a[1], 1], [b[0], b[1], 1], [c[0], c[1], 1]])))
             return 1, None
 
         else:
             Input = [[[uniform(-100, 100), uniform(-100, 100)] for _ in range(3)] for _ in range(10)]
             for a, b, c in Input:
                 Result = func[1](a, b, c)
-                if abs(Result - linalg.det(
-                        numpy.array([[a[0] - c[0], a[1] - c[1]], [b[0] - c[0], b[1] - c[1]]]))) > EPS:
+                if abs(Result - linalg.det(array([[a[0] - c[0], a[1] - c[1]], [b[0] - c[0], b[1] - c[1]]]))) > EPS:
                     return 0, "{}".format(Result), "{}".format(
-                        linalg.det(numpy.array([[a[0] - c[0], a[1] - c[1]], [b[0] - c[0], b[1] - c[1]]])))
+                        linalg.det(array([[a[0] - c[0], a[1] - c[1]], [b[0] - c[0], b[1] - c[1]]])))
             return 1, None
 
 """
 # test ------------------------------------------------------------------------------------------------
+import numpy
 def a(r, t):
     return numpy.random.uniform(r, t, size=[10 ** 5, 2])
 
@@ -106,6 +107,6 @@ def m2(a, b, c):
 
 
 x = Test()
-x.runtest(1, 10 ** -10, a, c, d)
-x.runtest(2, 10 ** -14, m3, m2)
+x.runtest(1, a, c, d)
+x.runtest(2, m3, m2)
 """
