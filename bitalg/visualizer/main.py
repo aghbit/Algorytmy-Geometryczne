@@ -13,10 +13,20 @@ class Visualizer():
         self.frames_stamps = []
 
     def add_points(self, points, color=None):
-        self.points_array.append((np.array(points), color))
+        points = np.array(points)
+
+        if len(points.shape) >= 2 and points.shape[1] == 2:
+            self.points_array.append((points, color))
+        else:
+            raise ValueError('dimension mismatch')
 
     def add_line_segments(self, line_segments, color=None):
-        self.line_segments_array.append((np.array(line_segments), color))
+        line_segments = np.array(line_segments)
+
+        if len(line_segments.shape) >= 2 and line_segments.shape[1:] == (2, 2):
+            self.line_segments_array.append((line_segments, color))
+        else:
+            raise ValueError('dimension mismatch')
 
     def new_frame(self):
         self.frames_stamps.append((len(self.points_array), len(self.line_segments_array)))
