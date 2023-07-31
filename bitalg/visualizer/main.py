@@ -13,10 +13,10 @@ class Visualizer():
         self.frames_stamps = []
 
     def add_points(self, points, color=None):
-        self.points_array.append((points, color))
+        self.points_array.append((np.array(points), color))
 
     def add_line_segments(self, line_segments, color=None):
-        self.line_segments_array.append((line_segments, color))
+        self.line_segments_array.append((np.array(line_segments), color))
 
     def new_frame(self):
         self.frames_stamps.append((len(self.points_array), len(self.line_segments_array)))
@@ -43,14 +43,12 @@ class Visualizer():
 
             while points_idx < points_idx_last:
                 points, color = self.points_array[points_idx]
-                points = np.array(points)
                 points_artist = ax.scatter(points[:, 0], points[:, 1], color=color)
                 artist_frame.append(points_artist)
                 points_idx += 1
 
             while lines_idx < lines_idx_last:
                 line_segments, color = self.line_segments_array[lines_idx]
-                line_segments = np.array(line_segments)
                 line_collection = LineCollection(line_segments, color=color)
                 lines_artist = ax.add_collection(line_collection)
                 artist_frame.append(lines_artist)
@@ -72,7 +70,6 @@ class Visualizer():
         ax.set_ylabel('y')
 
         for points, color in self.points_array:
-            points = np.array(points)
             ax.scatter(points[:, 0], points[:, 1], color=color)
 
         for line_segments, color in self.line_segments_array:
@@ -100,7 +97,7 @@ class Visualizer():
                 file.write(color)
                 file.write(str(line_segments))
 
-    def __clear(self):
+    def clear(self):
         self.points_array.clear()
         self.line_segments_array.clear()
 
@@ -108,7 +105,7 @@ class Visualizer():
     def open_plot(self, file_name):
         if not path.isfile(file_name):
             raise ValueError(f"{file_name} IS NOT A FILE")
-        self.__clear()
+        self.clear()
         with open(file_name, "r") as file:
             readed_color = file.readline()
             while "points_end\n" != readed_color:
@@ -118,7 +115,7 @@ class Visualizer():
                 while "," in readed_point:
                     points.append(list(map(float, readed_point.split(","))))
                     readed_point = file.readline()
-                self.add_points(points = np.array(points), color=color)
+                self.add_points(points = points, color=color)
                 readed_color = readed_point
             raise RuntimeError("load lines segments not implement yet")
         
@@ -126,3 +123,4 @@ class Visualizer():
     def save_picture(self, file_name):
         fig, _ = self.__build_plot()
         fig.savefig(file_name)
+        plt.close()
