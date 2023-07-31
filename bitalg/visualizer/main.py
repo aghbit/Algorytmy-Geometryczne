@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
 import os.path as path
 from matplotlib.collections import LineCollection
+from matplotlib.patches import Polygon
 import matplotlib.animation as animation
 from copy import copy
 
@@ -10,12 +11,13 @@ class Visualizer():
     def __init__(self):
         self.points_array = []
         self.line_segments_array = []
+        self.polygons_array = []
         self.frames_stamps = []
 
     def add_points(self, points, color=None):
         points = np.array(points)
 
-        if len(points.shape) >= 2 and points.shape[1] == 2:
+        if len(points.shape) >= 2 and points.shape[1:] == (2, ):
             self.points_array.append((points, color))
         else:
             raise ValueError('dimension mismatch')
@@ -25,6 +27,14 @@ class Visualizer():
 
         if len(line_segments.shape) >= 2 and line_segments.shape[1:] == (2, 2):
             self.line_segments_array.append((line_segments, color))
+        else:
+            raise ValueError('dimension mismatch')
+        
+    def add_polygons(self, polygons, color=None):
+        polygons = np.array(polygons)
+
+        if len(polygons.shape) >= 3 and polygons.shape[2:] == (2, ):
+            self.polygons_array.append((polygons, color))
         else:
             raise ValueError('dimension mismatch')
 
@@ -85,6 +95,11 @@ class Visualizer():
         for line_segments, color in self.line_segments_array:
             line_collection = LineCollection(line_segments, color=color)
             ax.add_collection(line_collection)
+
+        for polygons, color in self.polygons_array:
+            for polygon in polygons:
+                p = Polygon(polygon, color=color, alpha=0.4, zorder=0)
+                ax.add_patch(p)
 
         ax.autoscale()
 
