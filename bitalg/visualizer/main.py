@@ -73,7 +73,6 @@ class Visualizer():
             ax.scatter(points[:, 0], points[:, 1], color=color)
 
         for line_segments, color in self.line_segments_array:
-            line_segments = np.array(line_segments)
             line_collection = LineCollection(line_segments, color=color)
             ax.add_collection(line_collection)
 
@@ -115,7 +114,7 @@ class Visualizer():
                 while "," in readed_point:
                     points.append(list(map(float, readed_point.split(","))))
                     readed_point = file.readline()
-                self.add_points(points = points, color=color)
+                self.add_points(points, color=color)
                 readed_color = readed_point
             raise RuntimeError("load lines segments not implement yet")
         
