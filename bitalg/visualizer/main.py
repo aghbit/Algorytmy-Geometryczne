@@ -10,12 +10,7 @@ class Visualizer():
     def __init__(self):
         self.points_array = []
         self.line_segments_array = []
-<<<<<<< HEAD
         self.frames_stamps = []
-=======
-        # information about file name loaded before every __plot_bild()
-        self.loading_file = None
->>>>>>> 79f51bc (load do not work)
 
     def add_points(self, points, color=None):
         self.points_array.append((points, color))
@@ -73,16 +68,8 @@ class Visualizer():
     def __build_plot(self):
         fig, ax = plt.subplots()
 
-        
-
-        # load plot from file
-        if self.loading_file is not None:
-            img = mpimg.imread(self.loading_file)
-            ax.imshow(img)
-        else:
-            ax.set_xlabel('x')
-            ax.set_ylabel('y')
-            
+        ax.set_xlabel('x')
+        ax.set_ylabel('y')
 
         for points, color in self.points_array:
             points = np.array(points)
