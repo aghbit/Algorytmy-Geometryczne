@@ -1,5 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.image as mpimg
+import os.path as path
 from matplotlib.collections import LineCollection
 import matplotlib.animation as animation
 from copy import copy
@@ -86,7 +88,7 @@ class Visualizer():
         fig, _ = self.__build_plot()
         fig.show(warn=False)
 
-    # save informations about points and line segments of current Visualizer in file of given name $file_name
+    # save information about figure to file of given $file_name
     def save_plot(self, file_name):
         with open(file_name, "w") as file:
             file.write("points\n")
@@ -107,3 +109,8 @@ class Visualizer():
         self._clear()
         with open(file_name, "r") as file:
             raise RuntimeError("not implement yet")
+        
+    # save plot image to file of given $file_name
+    def save_picture(self, file_name):
+        fig, _ = self.__build_plot()
+        fig.savefig(file_name)
