@@ -91,24 +91,36 @@ class Visualizer():
     # save information about figure to file of given $file_name
     def save_plot(self, file_name):
         with open(file_name, "w") as file:
-            file.write("points\n")
             for points, color in self.points_array:
-                file.write(color)
-                file.write(points)
-            file.write("\nline_segments\n")
+                file.write(color+"\n")
+                file.write("".join(f"{p[0]}, {p[1]}\n" for p in points))
+            file.write("points_end\n")
             for line_segments, color in self.line_segments_array:
+                raise RuntimeError("writing line_segments not implement yet")
                 file.write(color)
-                file.write(line_segments)
+                file.write(str(line_segments))
 
-    def _clear(self):
+    def __clear(self):
         self.points_array.clear()
         self.line_segments_array.clear()
 
     # clear current visualizer and fill it with elements from file of given name
     def open_plot(self, file_name):
-        self._clear()
+        if not path.isfile(file_name):
+            raise ValueError(f"{file_name} IS NOT A FILE")
+        self.__clear()
         with open(file_name, "r") as file:
-            raise RuntimeError("not implement yet")
+            readed_color = file.readline()
+            while "points_end\n" != readed_color:
+                color = readed_color[:-1]
+                points = []
+                readed_point = file.readline()
+                while "," in readed_point:
+                    points.append(list(map(float, readed_point.split(","))))
+                    readed_point = file.readline()
+                self.add_points(points = np.array(points), color=color)
+                readed_color = readed_point
+            raise RuntimeError("load lines segments not implement yet")
         
     # save plot image to file of given $file_name
     def save_picture(self, file_name):
