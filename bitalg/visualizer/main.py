@@ -7,52 +7,108 @@ from matplotlib.patches import Polygon
 import matplotlib.animation as animation
 from copy import copy
 
-class Visualizer():
+class Drawable():
     def __init__(self):
-        self.points_array = []
-        self.line_segments_array = []
-        self.polygons_array = []
+        self.array = []
         self.frames_stamps = []
+        self.frame_idx = 0
+    
+    def draw_all(self, ax):
+        for index in range(len(self.array)):
+            self.draw(ax, index)
 
-        self.anim = None
+    def add(self, *args):
+        self.array.append(args)
 
-    def add_points(self, points, color=None):
+    def array_len(self):
+        return len(self.array)
+    
+    def new_frame(self):
+        self.frames_stamps.append(len(self.array))
+
+
+class Points(Drawable):
+    def draw(self, ax, index):
+        points, color = self.array[index]
+        artist = ax.scatter(points[:, 0], points[:, 1], color=color)
+        return [artist]
+
+    def add(self, points, color=None):
         points = np.array(points)
 
         if len(points.shape) >= 2 and points.shape[1:] == (2, ):
-            self.points_array.append((points, color))
-        else:
-            raise ValueError('dimension mismatch')
-
-    def add_line_segments(self, line_segments, color=None):
-        line_segments = np.array(line_segments)
-
-        if len(line_segments.shape) >= 2 and line_segments.shape[1:] == (2, 2):
-            self.line_segments_array.append((line_segments, color))
+            super().add(points, color)
         else:
             raise ValueError('dimension mismatch')
         
-    def add_polygons(self, polygons, color=None):
-        polygons = np.array(polygons)
+        
+class LineSegments(Drawable):
+    def draw(self, ax, index):
+        line_segments, color = self.array[index]
+        line_collection = LineCollection(line_segments, color=color)
+        artist = ax.add_collection(line_collection)
+        return [artist]
 
-        if len(polygons.shape) >= 3 and polygons.shape[2:] == (2, ):
-            self.polygons_array.append((polygons, color))
+    def add(self, line_segments, color=None):
+        line_segments = np.array(line_segments)
+
+        if len(line_segments.shape) >= 2 and line_segments.shape[1:] == (2, 2):
+            super().add(line_segments, color)
         else:
             raise ValueError('dimension mismatch')
 
+
+class Polygons(Drawable):
+    def draw(self, ax, index):
+        polygons, color = self.array[index]
+        artist_arr = []
+        for polygon in polygons:
+            p = Polygon(polygon, color=color, alpha=0.4, zorder=0)
+            artist = ax.add_patch(p)
+            artist_arr.append(artist)
+        return artist_arr
+
+    def add(self, polygons, color=None):
+        polygons = np.array(polygons)
+
+        if len(polygons.shape) >= 3 and polygons.shape[2:] == (2, ):
+            super().add(polygons, color)
+        else:
+            raise ValueError('dimension mismatch')
+
+
+class Visualizer():
+    def __init__(self):
+        self.points = Points()
+        self.line_segments = LineSegments()
+        self.polygons = Polygons()
+
+
+        self.frames_count = 0
+        self.animated_objects = [self.points, self.line_segments, self.polygons]
+        self.anim = None
+
+    def add_points(self, points, color=None):
+        self.points.add(points, color)
+        
+    def add_line_segments(self, line_segments, color=None):
+        self.line_segments.add(line_segments, color)
+        
+    def add_polygons(self, polygons, color=None):
+        self.polygons.add(polygons, color)
+
     def new_frame(self):
-        self.frames_stamps.append((len(self.points_array), len(self.line_segments_array)))
+        for obj in self.animated_objects:
+            obj.new_frame()
+        self.frames_count += 1
 
     def make_gif(self, interval=600):
-        if len(self.frames_stamps) == 0:
+        if self.frames_count == 0:
             raise RuntimeError("No frames were added")
         
         fig, ax = plt.subplots()
 
         frame = 0
-        frames_count = len(self.frames_stamps)
-        points_idx = 0
-        lines_idx = 0
 
         artists = []
         artist_frame = []
@@ -63,21 +119,14 @@ class Visualizer():
         artist_frame.append(artist_x)
         artist_frame.append(artist_y)
 
-        while frame < frames_count:
-            points_idx_last, lines_idx_last = self.frames_stamps[frame]
+        while frame < self.frames_count:
+            for obj in self.animated_objects:
+                idx_end = obj.frames_stamps[frame]
 
-            while points_idx < points_idx_last:
-                points, color = self.points_array[points_idx]
-                points_artist = ax.scatter(points[:, 0], points[:, 1], color=color)
-                artist_frame.append(points_artist)
-                points_idx += 1
-
-            while lines_idx < lines_idx_last:
-                line_segments, color = self.line_segments_array[lines_idx]
-                line_collection = LineCollection(line_segments, color=color)
-                lines_artist = ax.add_collection(line_collection)
-                artist_frame.append(lines_artist)
-                lines_idx += 1
+                while obj.frame_idx < idx_end:
+                    obj_artist = obj.draw(ax, obj.frame_idx)
+                    artist_frame.append(*obj_artist)
+                    obj.frame_idx += 1
 
             artists.append(copy(artist_frame))
             frame += 1
@@ -97,17 +146,8 @@ class Visualizer():
         ax.set_xlabel('x')
         ax.set_ylabel('y')
 
-        for points, color in self.points_array:
-            ax.scatter(points[:, 0], points[:, 1], color=color)
-
-        for line_segments, color in self.line_segments_array:
-            line_collection = LineCollection(line_segments, color=color)
-            ax.add_collection(line_collection)
-
-        for polygons, color in self.polygons_array:
-            for polygon in polygons:
-                p = Polygon(polygon, color=color, alpha=0.4, zorder=0)
-                ax.add_patch(p)
+        for obj in self.animated_objects:
+            obj.draw_all(ax)
 
         ax.autoscale()
 
