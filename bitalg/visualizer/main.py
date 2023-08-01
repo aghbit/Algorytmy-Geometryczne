@@ -14,6 +14,8 @@ class Visualizer():
         self.polygons_array = []
         self.frames_stamps = []
 
+        self.anim = None
+
     def add_points(self, points, color=None):
         points = np.array(points)
 
@@ -42,6 +44,9 @@ class Visualizer():
         self.frames_stamps.append((len(self.points_array), len(self.line_segments_array)))
 
     def make_gif(self, interval=600):
+        if len(self.frames_stamps) == 0:
+            raise RuntimeError("No frames were added")
+        
         fig, ax = plt.subplots()
 
         frame = 0
@@ -81,6 +86,9 @@ class Visualizer():
         plt.show()
 
     def save_gif(self, filename):
+        if self.anim == None:
+            raise RuntimeError("No animation detected")
+
         self.anim.save(filename=filename, writer="pillow")
 
     def __build_plot(self):
