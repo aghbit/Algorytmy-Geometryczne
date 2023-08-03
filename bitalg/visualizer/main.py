@@ -14,6 +14,16 @@ class Visualizer():
         self.polygons_array = []
         self.frames_stamps = []
 
+    # clear all elements that can by showed by methode self.show()
+    def clear(self):
+        self.points_array.clear()
+        self.line_segments_array.clear()
+        self.polygons_array.clear()
+
+    # clear all frames that can be showed by self.make_gif()
+    def clear_frames(self):
+        self.frames_stamps.clear()
+
     def add_points(self, points, color=None):
         points = np.array(points)
 
@@ -81,6 +91,10 @@ class Visualizer():
         plt.show()
 
     def save_gif(self, filename):
+        if self.anim is None:
+            raise RuntimeError("GIF WASN'T MADE")
+        if filename[-4:] != ".gif":
+            filename += ".gif"
         self.anim.save(filename=filename, writer="pillow")
 
     def __build_plot(self):
@@ -113,17 +127,24 @@ class Visualizer():
     def save_plot(self, file_name):
         with open(file_name, "w") as file:
             for points, color in self.points_array:
-                file.write(color+"\n")
+                file.write(str(color)+"\n")
                 file.write("".join(f"{p[0]}, {p[1]}\n" for p in points))
-            file.write("points_end\n")
+            file.write("end\n")
             for line_segments, color in self.line_segments_array:
-                raise RuntimeError("writing line_segments not implement yet")
-                file.write(color)
-                file.write(str(line_segments))
+                file.write(str(color)+"\n")
+                file.write("".join(f"{p1[0]}, {p1[1]}; {p2[0]}, {p2[1]}\n" for p1, p2 in line_segments))
+            file.write("end\n")
+            for polygons, color in self.polygons_array:
+                file.write(str(color)+"\n")
+                for polygon in polygons:
+                    file.write("".join(f"{px[0]}, {px[1]}; "for px in polygon)[:-2] + "\n")
+            file.write("end\n")
 
-    def clear(self):
-        self.points_array.clear()
-        self.line_segments_array.clear()
+
+    # convert string of format "a, b" into list float[a, b]
+    def __read_point(self, line):
+        return list(map(float, line.split(",")))
+    
 
     # clear current visualizer and fill it with elements from file of given name
     def open_plot(self, file_name):
@@ -132,16 +153,44 @@ class Visualizer():
         self.clear()
         with open(file_name, "r") as file:
             readed_color = file.readline()
-            while "points_end\n" != readed_color:
+
+            # points
+            while "end\n" != readed_color:
                 color = readed_color[:-1]
+                if color == "None": color = None
                 points = []
                 readed_point = file.readline()
                 while "," in readed_point:
-                    points.append(list(map(float, readed_point.split(","))))
+                    points.append(self.__read_point(readed_point))
                     readed_point = file.readline()
                 self.add_points(points, color=color)
                 readed_color = readed_point
-            raise RuntimeError("load lines segments not implement yet")
+            readed_color = file.readline()
+
+            # lines_segments
+            while "end\n" != readed_color:
+                color = readed_color[:-1]
+                if color == "None": color = None
+                lines_segments = []
+                readed_line = file.readline()
+                while ";" in readed_line:
+                    lines_segments.append([self.__read_point(point_str) for point_str in readed_line.split(";")])
+                    readed_line = file.readline()
+                self.add_line_segments(lines_segments, color=color)
+                readed_color = readed_line
+            readed_color = file.readline()
+
+            # polygons
+            while "end\n" != readed_color:
+                color = readed_color[:-1]
+                if color == "None": color = None
+                polygons = []
+                readed_polygon = file.readline()
+                while ";" in readed_polygon:
+                    polygons.append([self.__read_point(point_str) for point_str in readed_polygon.split(";")])
+                    readed_polygon = file.readline()
+                self.add_polygons(polygons, color=color)
+                readed_color = readed_polygon
         
     # save plot image to file of given $file_name
     def save_picture(self, file_name):
