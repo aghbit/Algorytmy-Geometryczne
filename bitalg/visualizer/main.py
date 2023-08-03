@@ -24,27 +24,27 @@ class Visualizer():
     def clear_frames(self):
         self.frames_stamps.clear()
 
-    def add_points(self, points, color=None):
+    def add_points(self, points, **kwargs):
         points = np.array(points)
 
         if len(points.shape) >= 2 and points.shape[1:] == (2, ):
-            self.points_array.append((points, color))
+            self.points_array.append((points, kwargs))
         else:
             raise ValueError('dimension mismatch')
 
-    def add_line_segments(self, line_segments, color=None):
+    def add_line_segments(self, line_segments, **kwargs):
         line_segments = np.array(line_segments)
 
         if len(line_segments.shape) >= 2 and line_segments.shape[1:] == (2, 2):
-            self.line_segments_array.append((line_segments, color))
+            self.line_segments_array.append((line_segments, kwargs))
         else:
             raise ValueError('dimension mismatch')
         
-    def add_polygons(self, polygons, color=None):
+    def add_polygons(self, polygons, **kwargs):
         polygons = np.array(polygons)
 
         if len(polygons.shape) >= 3 and polygons.shape[2:] == (2, ):
-            self.polygons_array.append((polygons, color))
+            self.polygons_array.append((polygons, kwargs))
         else:
             raise ValueError('dimension mismatch')
 
@@ -72,14 +72,14 @@ class Visualizer():
             points_idx_last, lines_idx_last = self.frames_stamps[frame]
 
             while points_idx < points_idx_last:
-                points, color = self.points_array[points_idx]
-                points_artist = ax.scatter(points[:, 0], points[:, 1], color=color)
+                points, kwargs = self.points_array[points_idx]
+                points_artist = ax.scatter(points[:, 0], points[:, 1], **kwargs)
                 artist_frame.append(points_artist)
                 points_idx += 1
 
             while lines_idx < lines_idx_last:
-                line_segments, color = self.line_segments_array[lines_idx]
-                line_collection = LineCollection(line_segments, color=color)
+                line_segments, kwargs = self.line_segments_array[lines_idx]
+                line_collection = LineCollection(line_segments, **kwargs)
                 lines_artist = ax.add_collection(line_collection)
                 artist_frame.append(lines_artist)
                 lines_idx += 1
@@ -103,16 +103,16 @@ class Visualizer():
         ax.set_xlabel('x')
         ax.set_ylabel('y')
 
-        for points, color in self.points_array:
-            ax.scatter(points[:, 0], points[:, 1], color=color)
+        for points, kwargs in self.points_array:
+            ax.scatter(points[:, 0], points[:, 1], **kwargs)
 
-        for line_segments, color in self.line_segments_array:
-            line_collection = LineCollection(line_segments, color=color)
+        for line_segments, kwargs in self.line_segments_array:
+            line_collection = LineCollection(line_segments, **kwargs)
             ax.add_collection(line_collection)
 
-        for polygons, color in self.polygons_array:
+        for polygons, kwargs in self.polygons_array:
             for polygon in polygons:
-                p = Polygon(polygon, color=color, alpha=0.4, zorder=0)
+                p = Polygon(polygon, **kwargs)
                 ax.add_patch(p)
 
         ax.autoscale()
