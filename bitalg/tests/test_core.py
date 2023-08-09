@@ -4,14 +4,14 @@ from os import listdir
 class TestCore:
     def __init__(self):
         self.tests_in = [[4, 2],  # number of tests in [lab-1 = row][task-1 = column]
-                         [-1, -1, -1, -1],  # lab 2
+                         [3],  # lab 2
                          [10, 10, 10],  # lab 3
                          [-1, -1, -1, -1]]  # lab 4
 
     def test(self, lab_no, task_no, test_func, func, *args):
         print("Lab {}, task {}:".format(lab_no, task_no))
 
-        if lab_no == 1:
+        if lab_no in [1, 2]:
             limit = self.tests_in[lab_no - 1][task_no - 1] + 1
         else:
             limit = len(listdir("..\\bitalg\\tests\\test{}_tests\\task{}".format(lab_no, task_no))) // 2 + 1
