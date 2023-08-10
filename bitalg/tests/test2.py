@@ -1,5 +1,19 @@
 from .test_core import TestCore
 
+def list_equal(a, b):
+    """
+    Checks if lists a and b are equal.
+
+    List contains points on a closed path, so you can choose any starting point,
+    so it's not enough to check the equality of lists.
+    """
+    try:
+        i = b.index(a[0])
+    except ValueError:
+        return False
+    b = b[i:] + b[:i]
+    return a == b
+
 class Test(TestCore):
     def runtest(self, func):
         TestCore.test(self, 2, 1, self.test_func, func)
@@ -15,7 +29,7 @@ class Test(TestCore):
     def test_func(self, test_no, func):
         test_input, test_answer = self.read_data(test_no)
         test_output = func(test_input)
-        if test_output == test_answer:
+        if list_equal(test_answer, test_output):
             return 1, None
         else:
             return 0, test_output, test_answer
