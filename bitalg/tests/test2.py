@@ -2,7 +2,7 @@ from .test_core import TestCore
 
 def list_equal(a, b):
     """
-    Checks if lists a and b are equal.
+    Checks if cyclic lists a and b are equal.
 
     List contains points on a closed path, so you can choose any starting point,
     so it's not enough to check the equality of lists.
@@ -19,10 +19,9 @@ class Test(TestCore):
         TestCore.test(self, 2, 1, self.test_func, func)
 
     def read_data(self, test_no):
-        # TODO change path
-        with open(f"bitalg/tests/test2_tests/task1/test_2_1_{test_no}.in") as f:
+        with open(f"../bitalg/tests/test2_tests/task1/test_2_1_{test_no}.in") as f:
             all_points = [(float(line.split()[0]), float(line.split()[1])) for line in f.readlines()]
-        with open(f"bitalg/tests/test2_tests/task1/test_2_1_{test_no}.out") as f:
+        with open(f"../bitalg/tests/test2_tests/task1/test_2_1_{test_no}.out") as f:
             hull_points = [(float(line.split()[0]), float(line.split()[1])) for line in f.readlines()]
         return all_points, hull_points
 
@@ -32,4 +31,6 @@ class Test(TestCore):
         if list_equal(test_answer, test_output):
             return 1, None
         else:
-            return 0, test_output, test_answer
+            str_out = str(test_output) if len(str(test_output)) < 350 else str(test_output)[:350] + '...'
+            str_ans = str(test_answer) if len(str(test_answer)) < 350 else str(test_answer)[:350] + '...'
+            return 0, str_out, str_ans
