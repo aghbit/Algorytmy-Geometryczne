@@ -4,7 +4,7 @@ from os import listdir
 class TestCore:
     def __init__(self):
         self.tests_in = [[4, 2],  # number of tests in [lab-1 = row][task-1 = column]
-                         [3],  # lab 2
+                         [11],  # lab 2
                          [10, 10, 10],  # lab 3
                          [-1, -1, -1, -1]]  # lab 4
 
