@@ -14,7 +14,7 @@ class TestCore:
         if lab_no in [1, 2]:
             limit = self.tests_in[lab_no - 1][task_no - 1] + 1
         else:
-            limit = len(listdir("..\\bitalg\\tests\\test{}_tests\\task{}".format(lab_no, task_no))) // 2 + 1
+            limit = len(listdir("D:\\Prywatne\\jul\\python_projekty\\geometryczne_rework\\bitalg\\tests\\test{}_tests\\task{}".format(lab_no, task_no))) // 2 + 1
 
         counter = 0
         for test_no in range(1, limit):
