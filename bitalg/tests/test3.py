@@ -3,6 +3,12 @@ from .test_core import TestCore
 
 class Test(TestCore):
     def runtest(self, task_no, func):
+        """
+        Checks the correctness of the function and measures its execution time
+        :param task_no: number of task
+        :param func: name of function to test
+        :return:
+        """
         if task_no == 1:
             print("Time: {}ms\n".format(round(1000*timeit.timeit(lambda: TestCore.test(self, 3, 1, self.task1_func, func), number=1), 3)))
         elif task_no == 2:
@@ -10,16 +16,24 @@ class Test(TestCore):
         else:
             print("Time: {}ms\n".format(round(1000*timeit.timeit(lambda: TestCore.test(self, 3, 3, self.task3_func, func), number=1), 3)))
 
-    def read_data(self, task_no, test_no):
-        Points = []
-        for point in open("..\\bitalg\\tests\\test3_tests\\task{}\\test_{}_{}_{}.in".format(task_no, 3, task_no, test_no), "r"):
-            Points.append(list(map(float, point.split(" "))))
-        return Points
+    @staticmethod
+    def read_data(task_no, test_no):
+        try:
+            with open(f"..\\bitalg\\tests\\test3_tests\\task{task_no}\\test_3_{task_no}_{test_no}.in") as f:
+                Points = [(float(line.split()[0]), float(line.split()[1])) for line in f.readlines()]
+                return Points
+        except FileNotFoundError:
+            print("ERROR: File not found (\\bitalg\\tests\\test3_tests\\task{task_no}\\test_3_{task_no}_{test_no}.in)".format(task_no=task_no, test_no=test_no))
+            return []
 
     # is y-monotone
     def task1_func(self, test_no, func):
         Input = self.read_data(1, test_no)
-        Output = open("..\\bitalg\\tests\\test3_tests\\task1\\test_3_1_{}.out".format(test_no), "r").read()
+        try:
+            Output = open("..\\bitalg\\tests\\test3_tests\\task1\\test_3_1_{}.out".format(test_no), "r").read()
+        except FileNotFoundError:
+            print("ERROR: File not found (\\bitalg\\tests\\test3_tests\\task1\\test_3_1_{}.out".format(test_no), end="\n")
+            return 0, None, None
         Result = func(Input)
         if str(Result) == Output:
             return 1, None
@@ -28,7 +42,11 @@ class Test(TestCore):
     # vertex classification (początkowe, końcowe, łączące, dzielące i prawidłowe)
     def task2_func(self, test_no, func):
         Input = self.read_data(2, test_no)
-        Output = list(map(int, open("..\\bitalg\\tests\\test3_tests\\task2\\test_3_2_{}.out".format(test_no), "r").read().split("\n")))
+        try:
+            Output = list(map(int, open("..\\bitalg\\tests\\test3_tests\\task2\\test_3_2_{}.out".format(test_no), "r").read().split("\n")))
+        except FileNotFoundError:
+            print("ERROR: File not found", end="\n")
+            return 0, None, None
         Result = func(Input)
         if Result == Output:
             return 1, None
@@ -37,8 +55,11 @@ class Test(TestCore):
     # triangulation with steps
     def task3_func(self, test_no, func):
         Input = self.read_data(3, test_no)
-        Output = [[int(i) for i in line.strip().split(' ')] for line in
-                  open("..\\bitalg\\tests\\test3_tests\\task3\\test_3_3_{}.out".format(test_no), "r").readlines()]
+        try:
+            Output = [[int(i) for i in line.strip().split(' ')] for line in open("..\\bitalg\\tests\\test3_tests\\task3\\test_3_3_{}.out".format(test_no), "r").readlines()]
+        except FileNotFoundError:
+            print("ERROR: File not found (\\bitalg\\tests\\test3_tests\\task1\\test_3_1_{}.out".format(test_no), end="\n")
+            return 0, None, None
         Result = func(Input)
 
         if len(Result) != len(Output):
