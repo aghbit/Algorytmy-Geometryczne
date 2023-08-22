@@ -5,16 +5,23 @@ from random import uniform
 
 class Test(TestCore):
     def runtest(self, task_no, *func):
+        """
+            Checks the correctness of the function and measures its execution time
+            :param task_no: number of task
+            :param func: name of functions to test
+            :return:
+        """
         if task_no == 1:
             print("Time: {}s\n".format(round(timeit.timeit(lambda: TestCore.test(self, 1, 1, self.task1_func, *func), number=1), 3)))
         else:
             print("Time: {}ms\n".format(round(1000*timeit.timeit(lambda: TestCore.test(self, 1, 2, self.task2_func, *func), number=1), 3)))
 
-    # 10**5 z zakresu [-1000, 1000]
-    # 10**5 z zakresu [-10**14, 10**14]
-    # 1000 z okręgu (S=(0,0), r=100)
-    # 1000 z [-1000, 1000] na prostej wektora ([-1, 0], [1, 0.1])
-    def task1_func(self, test_no, *func):
+    # 10**5 numbers from interval [-1000, 1000]
+    # 10**5 numbers from interval [-10**14, 10**14]
+    # 1000 on circle (S=(0,0), r=100)
+    # 1000 z [-1000, 1000] on line created by vector ([-1, 0], [1, 0.1])
+    @staticmethod
+    def task1_func(test_no, *func):
         EPS = 10 ** -10
         if test_no == 1:
             Result = func[0](-1000, 1000)
@@ -55,7 +62,8 @@ class Test(TestCore):
             return 1, None
 
     # matrix determinant
-    def task2_func(self, test_no, *func):
+    @staticmethod
+    def task2_func(test_no, *func):
         EPS = 10 ** -10
         if test_no == 1:
             Input = [[[uniform(-100, 100), uniform(-100, 100)] for _ in range(3)] for _ in range(10)]
