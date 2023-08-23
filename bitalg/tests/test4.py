@@ -1,4 +1,4 @@
-from bitalg.tests.test_core import TestCore
+from bitalg.tests.test_core import TestCore, get_test_path
 
 
 class Test(TestCore):
@@ -20,8 +20,7 @@ class Test(TestCore):
         :return:
         """
         points = []
-        # TODO ścieżki do zmiany
-        with open(f"../tests/test4_tests/task{task_no}/test_4_{task_no}_{test_no}.in", "r") as file:
+        with open(get_test_path(4, task_no, test_no) + ".in") as file:
             for point in file:
                 points.append(list(map(float, point.split(" "))))
         return points
@@ -35,7 +34,7 @@ class Test(TestCore):
         :return:
         """
         lines = []
-        with open(f"../tests/test4_tests/task{task_no}/test_4_{task_no}_{test_no}.in", "r") as file:
+        with open(get_test_path(4, task_no, test_no) + ".in") as file:
             for point in file:
                 x1, y1, x2, y2 = (map(float, point.split(" ")))
                 lines.append([(x1, y1), (x2, y2)])
@@ -49,7 +48,7 @@ class Test(TestCore):
         :return:
         """
         test_data = self.read_data(1, test_no)
-        output = open("../tests/test4_tests/task1/test_4_1_{}.out".format(test_no), "r").read()
+        output = open(get_test_path(4, 1, test_no) + ".out").read()
         result = func(test_data[0], test_data[1], test_data[2])
         if str(result) == output:
             return 1, None
@@ -74,7 +73,7 @@ class Test(TestCore):
         :return:
         """
         test_data = self.read_points(1, test_no)
-        output = open("../tests/test4_tests/task2/test_4_2_{}.out".format(test_no), "r").read().split('\n')
+        output = open(get_test_path(4, 2, test_no) + ".out").read().split('\n')
         result = func(test_data)
         # TODO co ma user zwracać? na razie zakładam, że same indeksu przecięć
         # TODO pytanie czy to rozbić na dwa testy jeden na liczbę przecięć, drugi na to które z którym się przecinają
