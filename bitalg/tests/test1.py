@@ -65,7 +65,7 @@ class Test(TestCore):
     @staticmethod
     def task2_func(test_no, *func):
         EPS = 10 ** -10
-        if test_no == 1:
+        if test_no == 1 or test_no == 3:
             Input = [[[uniform(-100, 100), uniform(-100, 100)] for _ in range(3)] for _ in range(10)]
             for a, b, c in Input:
                 Result = func[0](a, b, c)
