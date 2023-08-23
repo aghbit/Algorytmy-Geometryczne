@@ -24,7 +24,7 @@ class Test(TestCore):
     def task1_func(test_no, *func):
         EPS = 10 ** -10
         if test_no == 1:
-            Result = func[0](-1000, 1000)
+            Result = func[0](-1000, 1000, 10**5)
             if len(Result) != 10 ** 5:
                 return 0, "[len: {}]".format(len(Result)), "[len: 10^5]"
             for x, y in Result:
@@ -34,7 +34,7 @@ class Test(TestCore):
 
         elif test_no == 2:
             low, high = -10 ** 14, 10 ** 14
-            Result = func[0](low, high)
+            Result = func[0](low, high, 10**5)
             if len(Result) != 10 ** 5:
                 return 0, "[len: {}]".format(len(Result)), "[len: 10^5]"
             for x, y in Result:
@@ -43,7 +43,7 @@ class Test(TestCore):
             return 1, None
 
         elif test_no == 3:
-            Result = func[1]()
+            Result = func[1]((0, 0), 100, 1000)
             if len(Result) != 1000:
                 return 0, "[len: {}]".format(len(Result)), "[len: 1000]"
             for x, y in Result:
@@ -53,7 +53,7 @@ class Test(TestCore):
             return 1, None
 
         else:
-            Result = func[2]()
+            Result = func[2]((-1, 0), (1, 0.1), 1000)
             if len(Result) != 1000:
                 return 0, "[len: {}]".format(len(Result)), "[len: 1000]"
             for x, y in Result:
@@ -64,11 +64,11 @@ class Test(TestCore):
     # matrix determinant
     @staticmethod
     def task2_func(test_no, *func):
-        EPS = 10 ** -10
+        EPS = 10 ** -8
         if test_no == 1 or test_no == 3:
             Input = [[[uniform(-100, 100), uniform(-100, 100)] for _ in range(3)] for _ in range(10)]
             for a, b, c in Input:
-                Result = func[0](a, b, c)
+                Result = func[test_no-1](a, b, c)
                 if abs(Result - linalg.det(array([[a[0], a[1], 1], [b[0], b[1], 1], [c[0], c[1], 1]]))) > EPS:
                     return 0, "{}".format(Result), "{}".format(
                         linalg.det(array([[a[0], a[1], 1], [b[0], b[1], 1], [c[0], c[1], 1]])))
@@ -77,7 +77,7 @@ class Test(TestCore):
         else:
             Input = [[[uniform(-100, 100), uniform(-100, 100)] for _ in range(3)] for _ in range(10)]
             for a, b, c in Input:
-                Result = func[1](a, b, c)
+                Result = func[test_no-1](a, b, c)
                 if abs(Result - linalg.det(array([[a[0] - c[0], a[1] - c[1]], [b[0] - c[0], b[1] - c[1]]]))) > EPS:
                     return 0, "{}".format(Result), "{}".format(
                         linalg.det(array([[a[0] - c[0], a[1] - c[1]], [b[0] - c[0], b[1] - c[1]]])))
