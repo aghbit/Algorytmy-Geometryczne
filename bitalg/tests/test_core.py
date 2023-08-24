@@ -1,8 +1,8 @@
-from os import path
+from os import path, listdir
 from bitalg import __path__ as pkg_path
 
 def get_test_path(lab_no, task_no, test_no):
-    return path.join(pkg_path[0], f'tests/test{lab_no}_tests/task{task_no}/test_{lab_no}_{task_no}_{test_no}')
+    return path.join(pkg_path[0], f"tests/test{lab_no}_tests/task{task_no}/test_{lab_no}_{task_no}_{test_no}")
 
 
 class TestCore:
@@ -15,7 +15,10 @@ class TestCore:
     def test(self, lab_no, task_no, test_func, func, *args):
         print("Lab {}, task {}:".format(lab_no, task_no))
 
-        limit = self.tests_in[lab_no - 1][task_no - 1] + 1
+        if lab_no == 1:
+            limit = self.tests_in[lab_no - 1][task_no - 1] + 1
+        else:
+            limit = len(listdir(path.join(pkg_path[0], f"tests/test{lab_no}_tests/task{task_no}"))) // 2 + 1
 
         counter = 0
         for test_no in range(1, limit):
