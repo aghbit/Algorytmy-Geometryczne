@@ -10,5 +10,5 @@ setup(
     long_description_content_type='text/markdown',
     author='AGH BIT Student Scientific Group',
     packages=['bitalg'],
-    python_requires='>=3.11'
+    python_requires='>=3.8'
 )
