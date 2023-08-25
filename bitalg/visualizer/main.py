@@ -1,10 +1,10 @@
-from figures.point import Point
-from figures.line_segment import LineSegment
-from figures.circle import Circle
-from figures.polygon import Polygon
-from figures.line import Line
-from figures.half_line import HalfLine
-from plot.plot import Plot
+from .figures.point import Point
+from .figures.line_segment import LineSegment
+from .figures.circle import Circle
+from .figures.polygon import Polygon
+from .figures.line import Line
+from .figures.half_line import HalfLine
+from .plot.plot import Plot
 
 
 class Visualizer:

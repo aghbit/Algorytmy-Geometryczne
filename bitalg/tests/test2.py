@@ -1,4 +1,4 @@
-from .test_core import TestCore
+from .test_core import TestCore, get_test_path
 
 def list_equal(a, b):
     """
@@ -19,9 +19,9 @@ class Test(TestCore):
         TestCore.test(self, 2, 1, self.test_func, func)
 
     def read_data(self, test_no):
-        with open(f"../bitalg/tests/test2_tests/task1/test_2_1_{test_no}.in") as f:
+        with open(get_test_path(2, 1, test_no) + ".in") as f:
             all_points = [(float(line.split()[0]), float(line.split()[1])) for line in f.readlines()]
-        with open(f"../bitalg/tests/test2_tests/task1/test_2_1_{test_no}.out") as f:
+        with open(get_test_path(2, 1, test_no) + ".out") as f:
             hull_points = [(float(line.split()[0]), float(line.split()[1])) for line in f.readlines()]
         return all_points, hull_points
 
