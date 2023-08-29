@@ -2,6 +2,8 @@ from setuptools import setup
 
 with open('README.md', encoding='utf-8') as f:
     long_description = f.read()
+with open('requirements.txt') as f:
+    requirements = f.read().split('\n')
 
 setup(
     name='bitalg',
@@ -10,5 +12,6 @@ setup(
     long_description_content_type='text/markdown',
     author='AGH BIT Student Scientific Group',
     packages=['bitalg'],
-    python_requires='>=3.8'
+    python_requires='>=3.8',
+    install_requires=requirements,
 )
