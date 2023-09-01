@@ -1,6 +1,7 @@
 from os import path, listdir
 from bitalg import __path__ as pkg_path
 
+
 def get_test_path(lab_no, task_no, test_no):
     return path.join(pkg_path[0], f"tests/test{lab_no}_tests/task{task_no}/test_{lab_no}_{task_no}_{test_no}")
 
@@ -8,7 +9,7 @@ def get_test_path(lab_no, task_no, test_no):
 class TestCore:
     def __init__(self):
         self.tests_in = [[4, 2],  # number of tests in [lab-1 = row][task-1 = column]
-                         [11],  # lab 2
+                         [11, 4],  # lab 2
                          [10, 10, 10],  # lab 3
                          [1, 3]]  # lab 4
 

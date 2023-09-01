@@ -1,5 +1,6 @@
 from .test_core import TestCore, get_test_path
 
+
 def list_equal(a, b):
     """
     Checks if cyclic lists a and b are equal.
@@ -14,19 +15,24 @@ def list_equal(a, b):
     b = b[i:] + b[:i]
     return a == b
 
-class Test(TestCore):
-    def runtest(self, func):
-        TestCore.test(self, 2, 1, self.test_func, func)
 
-    def read_data(self, test_no):
-        with open(get_test_path(2, 1, test_no) + ".in") as f:
+class Test(TestCore):
+    def runtest(self, task_no, func):
+        if task_no in [1, 2]:
+            TestCore.test(self, 2, task_no, self.test_func, func, task_no)
+        else:
+            raise ValueError('Available task numbers are 1 or 2.')
+
+    @staticmethod
+    def read_data(task_no, test_no):
+        with open(get_test_path(2, task_no, test_no) + ".in") as f:
             all_points = [(float(line.split()[0]), float(line.split()[1])) for line in f.readlines()]
-        with open(get_test_path(2, 1, test_no) + ".out") as f:
+        with open(get_test_path(2, task_no, test_no) + ".out") as f:
             hull_points = [(float(line.split()[0]), float(line.split()[1])) for line in f.readlines()]
         return all_points, hull_points
 
-    def test_func(self, test_no, func):
-        test_input, test_answer = self.read_data(test_no)
+    def test_func(self, test_no, func, task_no):
+        test_input, test_answer = self.read_data(task_no, test_no)
         test_output = func(test_input)
         if list_equal(test_answer, test_output):
             return 1, None
