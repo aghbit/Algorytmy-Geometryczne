@@ -1,5 +1,5 @@
 import timeit
-from .test_core import TestCore
+from .test_core import TestCore, get_test_path
 
 class Test(TestCore):
     def runtest(self, task_no, func):
@@ -19,20 +19,20 @@ class Test(TestCore):
     @staticmethod
     def read_data(task_no, test_no):
         try:
-            with open(f"..\\bitalg\\tests\\test3_tests\\task{task_no}\\test_3_{task_no}_{test_no}.in") as f:
+            with open(get_test_path(3, task_no, test_no) + ".in") as f:
                 Points = [(float(line.split()[0]), float(line.split()[1])) for line in f.readlines()]
                 return Points
         except FileNotFoundError:
-            print("ERROR: File not found (\\bitalg\\tests\\test3_tests\\task{task_no}\\test_3_{task_no}_{test_no}.in)".format(task_no=task_no, test_no=test_no))
+            print(f"ERROR: File not found ({get_test_path(3, task_no, test_no)}.in)")
             return []
 
     # is y-monotone
     def task1_func(self, test_no, func):
         Input = self.read_data(1, test_no)
         try:
-            Output = open("..\\bitalg\\tests\\test3_tests\\task1\\test_3_1_{}.out".format(test_no), "r").read()
+            Output = open(get_test_path(3, 1, test_no) + ".out").read()
         except FileNotFoundError:
-            print("ERROR: File not found (\\bitalg\\tests\\test3_tests\\task1\\test_3_1_{}.out".format(test_no), end="\n")
+            print(f"ERROR: File not found ({get_test_path(3, 1, test_no)}.out)")
             return 0, None, None
         Result = func(Input)
         if str(Result) == Output:
@@ -43,9 +43,9 @@ class Test(TestCore):
     def task2_func(self, test_no, func):
         Input = self.read_data(2, test_no)
         try:
-            Output = list(map(int, open("..\\bitalg\\tests\\test3_tests\\task2\\test_3_2_{}.out".format(test_no), "r").read().split("\n")))
+            Output = list(map(int, open(get_test_path(3, 2, test_no) + ".out").read().split("\n")))
         except FileNotFoundError:
-            print("ERROR: File not found", end="\n")
+            print(f"ERROR: File not found ({get_test_path(3, 1, test_no)}.out)")
             return 0, None, None
         Result = func(Input)
         if Result == Output:
@@ -56,9 +56,9 @@ class Test(TestCore):
     def task3_func(self, test_no, func):
         Input = self.read_data(3, test_no)
         try:
-            Output = [[int(i) for i in line.strip().split(' ')] for line in open("..\\bitalg\\tests\\test3_tests\\task3\\test_3_3_{}.out".format(test_no), "r").readlines()]
+            Output = [[int(i) for i in line.strip().split(' ')] for line in open(get_test_path(3, 3, test_no) + ".out").readlines()]
         except FileNotFoundError:
-            print("ERROR: File not found (\\bitalg\\tests\\test3_tests\\task1\\test_3_1_{}.out".format(test_no), end="\n")
+            print(f"ERROR: File not found ({get_test_path(3, 3, test_no)}.out)")
             return 0, None, None
         Result = func(Input)
 
