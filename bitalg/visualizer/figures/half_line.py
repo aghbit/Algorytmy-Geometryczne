@@ -4,22 +4,7 @@ from matplotlib.lines import Line2D
 from matplotlib.transforms import Bbox, BboxTransformTo
 
 
-def axline(ax, xy1, xy2, **kwargs):
-    datalim = [xy1] if xy2 is None else [xy1, xy2]
-    if "transform" in kwargs:
-        datalim = []
-    line = AxLine(xy1, xy2, **kwargs)
-    ax.add_line(line)
-    ax.update_datalim(datalim)
-    return line
-
-
 class AxLine(Line2D):
-    """
-    A helper class that implements `~.Axes.axline`, by recomputing the artist
-    transform at draw time.
-    """
-
     def __init__(self, xy1, xy2, **kwargs):
         super().__init__([0, 1], [0, 1], **kwargs)
         self._xy1 = xy1
@@ -43,8 +28,6 @@ class AxLine(Line2D):
             slope = dy / dx
 
         (vxlo, vylo), (vxhi, vyhi) = ax.transScale.transform(ax.viewLim)
-        # General case: find intersections with view limits in either
-        # direction, and draw between the middle two points.
         if np.isclose(slope, 0):
             start = vxlo, y1
             stop = vxhi, y1
@@ -58,6 +41,7 @@ class AxLine(Line2D):
                 (x1 + (vylo - y1) / slope, vylo),
                 (x1 + (vyhi - y1) / slope, vyhi),
             ])
+
         # handling half line
         if x1 < x2:
             start = (x1, y1)
@@ -67,8 +51,19 @@ class AxLine(Line2D):
             start = (x1, y1)
         elif y1 > y2:
             stop = (x1, y1)
+
         return (BboxTransformTo(Bbox([start, stop]))
                 + ax.transLimits + ax.transAxes)
+
+
+def axline(ax, xy1, xy2, **kwargs):
+    datalim = [xy1] if xy2 is None else [xy1, xy2]
+    if "transform" in kwargs:
+        datalim = []
+    line = AxLine(xy1, xy2, **kwargs)
+    ax.add_line(line)
+    ax.update_datalim(datalim)
+    return line
 
 
 class HalfLine(Figure):
@@ -79,5 +74,6 @@ class HalfLine(Figure):
     def draw(self, ax):
         artist = []
         for half_line in self.data:
-            artist.append(axline(ax, half_line[0], half_line[1], **self.options))
+            artist.append(
+                axline(ax, half_line[0], half_line[1], **self.options))
         return artist
