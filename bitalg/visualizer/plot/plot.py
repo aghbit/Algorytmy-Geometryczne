@@ -26,6 +26,7 @@ class Plot:
         fig, ax = plt.subplots()
         artists = []
         frames = [ax.set_xlabel('x'), ax.set_ylabel('y')]
+        artists.append(frames[:])
 
         if 'title' in plot_data:
             ax.set_title(plot_data['title'])
