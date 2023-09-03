@@ -78,6 +78,6 @@ class HalfLine(Figure):
 
     def draw(self, ax):
         artist = []
-        for line in self.data:
-            artist.append(axline(ax, line[0], line[1], **self.options))
+        for half_line in self.data:
+            artist.append(axline(ax, half_line[0], half_line[1], **self.options))
         return artist
