@@ -10,6 +10,13 @@ from .plot.plot import Plot
 class Visualizer:
     def __init__(self):
         self.data = []
+        self.plot_data = {}
+
+    def add_title(self, title):
+        self.plot_data['title'] = title
+
+    def add_grid(self):
+        self.plot_data['grid'] = True
 
     def add_point(self, data, **kwargs):
         point = Point(data, kwargs)
@@ -37,16 +44,17 @@ class Visualizer:
 
     def clear(self):
         self.data = []
+        self.plot_data = {}
 
     def show(self):
-        Plot.show(self.data)
+        Plot.show(self.plot_data, self.data)
 
     def save(self, filename='plot'):
-        Plot.save(self.data, filename)
+        Plot.save(self.plot_data, self.data, filename)
 
     def show_gif(self, interval=256):
-        gif = Plot.show_gif(self.data, interval)
+        gif = Plot.show_gif(self.plot_data, self.data, interval)
         return gif
 
     def save_gif(self, filename='animation', interval=256):
-        Plot.save_gif(self.data, interval, filename)
+        Plot.save_gif(self.plot_data, self.data, interval, filename)
