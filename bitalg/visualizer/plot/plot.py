@@ -39,13 +39,14 @@ class Plot:
             if figure.to_be_removed and figure.artist:
                 first = frames.index(figure.artist[0])
                 last = frames.index(figure.artist[-1])
+                figure.artist = None
+                figure.to_be_removed = False
                 frames = frames[:first] + frames[last+1:]
-                artists.append(frames[:])
             else:
                 artist = figure.draw(ax)
                 figure.artist = artist
                 frames.extend(artist)
-                artists.append(frames[:])
+            artists.append(frames[:])
                 
         ax.autoscale()
         return animation.ArtistAnimation(fig=fig, artists=artists, interval=interval, blit=True)
