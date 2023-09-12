@@ -74,6 +74,7 @@ class HalfLine(Figure):
     def draw(self, ax):
         artist = []
         for half_line in self.data:
+            artist.append(ax.scatter(*half_line[0], s=1e-8, color='white', alpha=0))
             artist.append(
                 axline(ax, half_line[0], half_line[1], **self.options))
         return artist
