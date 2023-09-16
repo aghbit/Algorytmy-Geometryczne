@@ -1,4 +1,3 @@
-import timeit
 from .test_core import TestCore
 from numpy import linalg, array
 from random import uniform
@@ -6,15 +5,15 @@ from random import uniform
 class Test(TestCore):
     def runtest(self, task_no, *func):
         """
-            Checks the correctness of the function and measures its execution time
+            Checks the correctness of the function
             :param task_no: number of task
             :param func: name of functions to test
             :return:
         """
         if task_no == 1:
-            print("Time: {}s\n".format(round(timeit.timeit(lambda: TestCore.test(self, 1, 1, self.task1_func, *func), number=1), 3)))
+            TestCore.test(self, 1, 1, self.task1_func, *func)
         else:
-            print("Time: {}ms\n".format(round(1000*timeit.timeit(lambda: TestCore.test(self, 1, 2, self.task2_func, *func), number=1), 3)))
+            TestCore.test(self, 1, 2, self.task2_func, *func)
 
     # 10**5 numbers from interval [-1000, 1000]
     # 10**5 numbers from interval [-10**14, 10**14]

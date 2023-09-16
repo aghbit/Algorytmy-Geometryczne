@@ -1,4 +1,5 @@
 from os import path, listdir
+from time import process_time
 from bitalg import __path__ as pkg_path
 
 
@@ -7,11 +8,14 @@ def get_test_path(lab_no, task_no, test_no):
 
 
 class TestCore:
+    sum_time = 0
     def __init__(self):
         self.tests_in = [[4, 2],  # number of tests in [lab-1 = row][task-1 = column]
                          [11, 11],  # lab 2
                          [10, 10, 10],  # lab 3
                          [3, 3, 3]]  # lab 4
+    def __del__(self):
+        print(f"Time: {self.sum_time:.3f}s")
 
     def test(self, lab_no, task_no, test_func, func, *args):
         print("Lab {}, task {}:".format(lab_no, task_no))
@@ -25,7 +29,10 @@ class TestCore:
         for test_no in range(1, limit):
             print(f"\tTest {test_no}:", end=" ")
 
+            timer_start = process_time()
             result, *output_expected = test_func(test_no, func, *args)
+            timer_stop = process_time()
+            self.sum_time += timer_stop - timer_start
 
             if result == 1:
                 print("Passed")
