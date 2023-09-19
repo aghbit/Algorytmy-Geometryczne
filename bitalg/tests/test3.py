@@ -1,20 +1,19 @@
-import timeit
 from .test_core import TestCore, get_test_path
 
 class Test(TestCore):
     def runtest(self, task_no, func):
         """
-        Checks the correctness of the function and measures its execution time
+        Checks the correctness of the function
         :param task_no: number of task
         :param func: name of function to test
         :return:
         """
         if task_no == 1:
-            print("Time: {}ms\n".format(round(1000*timeit.timeit(lambda: TestCore.test(self, 3, 1, self.task1_func, func), number=1), 3)))
+            TestCore.test(self, 3, 1, self.task1_func, func)
         elif task_no == 2:
-            print("Time: {}ms\n".format(round(1000*timeit.timeit(lambda: TestCore.test(self, 3, 2, self.task2_func, func), number=1), 3)))
+            TestCore.test(self, 3, 2, self.task2_func, func)
         else:
-            print("Time: {}ms\n".format(round(1000*timeit.timeit(lambda: TestCore.test(self, 3, 3, self.task3_func, func), number=1), 3)))
+            TestCore.test(self, 3, 3, self.task3_func, func)
 
     @staticmethod
     def read_data(task_no, test_no):
