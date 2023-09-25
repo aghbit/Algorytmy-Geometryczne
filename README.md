@@ -93,7 +93,7 @@ Clearing data
 vis.clear()
 ```
 
-Adding multiple geometic figures
+Adding multiple geometric figures
 ```python
 vis = Visualizer()
 
