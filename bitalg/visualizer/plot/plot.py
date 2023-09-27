@@ -40,7 +40,6 @@ class Plot:
                 first = frames.index(figure.artist[0])
                 last = frames.index(figure.artist[-1])
                 figure.artist = None
-                figure.to_be_removed = False
                 frames = frames[:first] + frames[last+1:]
             else:
                 artist = figure.draw(ax)
