@@ -80,17 +80,17 @@ vis.add_circle(circle, color='green')
 vis.add_half_line(half_line, color='purple')
 ```
 
-Showing img
+Wyświetlanie wykresu
 ```python
 vis.show()
 ```
-![single](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/c0b32f64-0622-47ce-9c55-52cb4bfbdb0b)
+![single](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/00361c74-80b7-47db-a5c2-17635c521d4f)
 
-Showing gif
+Wyświetlanie gifa
 ```python
 vis.show_gif(interval=300)
 ```
-![single](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/ff9ac16a-c63b-4a08-8a4f-23e6d92e1a7c)
+![single](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/e081a98f-19ae-4810-ab60-533622a2d40d)
 
 Zapisywanie wykresu
 ```python
@@ -156,7 +156,7 @@ vis.add_line(lines)
 vis.add_polygon(polygons)
 vis.add_half_line(half_lines, color='purple')
 ```
-![multiple](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/3ec7762e-4003-44ff-95f9-03ee43e24efd)
+![multiple](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/1601f760-187e-40de-a262-2d9e5b9c8035)
 
 Usuwanie figur geometrycznych
 ```python
@@ -179,7 +179,7 @@ for ls in to_remove:
 
 vis.show_gif()
 ```
-![removal](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/95c5e2d9-391a-4a03-b2a3-9351f8d5e8ec)
+![removal](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/026d2e8e-a756-4448-a4b4-55a40b6063dc)
 
 ## Struktura repozytorium
 Całe repozytorium składa się z sześciu folderów:
