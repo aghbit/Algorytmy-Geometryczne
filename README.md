@@ -11,17 +11,17 @@ Następnie uruchom:
 
 ```
 cd Algorytmy-Geometryczne
-Algorytmy-Geometryczne$ python3 setup.py sdist
-Algorytmy-Geometryczne$ python3 -m pip install -e .
+python3 setup.py sdist
+python3 -m pip install -e .
 ```
 Żeby móc uruchomić notebook musisz stworzyć środowisko condy:
 ```
-Algorytmy-Geometryczne$ conda create --name bit-alg python=3.9
-Algorytmy-Geometryczne$ conda activate bit-alg
+conda create --name bit-alg python=3.9
+conda activate bit-alg
 ```
 I wtedy możesz uruchomić serwer jupytera:
 ```
-Algorytmy-Geometryczne$ jupyter notebook
+jupyter notebook
 ```
 Po uruchomieniu go wystarczy wejść na localhost:8888 (wpisz to w przeglądarkę)
 
