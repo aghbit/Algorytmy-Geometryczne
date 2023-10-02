@@ -193,13 +193,13 @@ Całe repozytorium składa się z sześciu folderów:
 #### lab1-4
 Tutaj znajdują się przygotowane notebooki, które musisz wypełnic. Każdy katalog odpowiada jednemu laboratorium
 #### tests
-Kod który wykonuje testy w poszczególnych notebookach znajduje się w plikach test1.py, test2.py, test3.py, test4.py.
+Kod który wykonuje testy w poszczególnych notebookach znajduje się w plikach ```test1.py```, ```test2.py```, ```test3.py```, ```test4.py```.
 Z kolei w folderach test2_tests, test3_tests, test4_tests można znaleźć pliki wejściowe i wyjściowe na podstawie których testowane są algorytmy, 
 które są do napisania w ramach poszczególnych laboratoriów.
 
 #### visualizer
 Jest to katalog w którym zaimplementowane jest narzędzie graficzne. Opis korzystania z narzędzia graficznego znajduje 
-się w README (jeden paragraf wyżej) oraz warto zapoznać się z plikiem [demo.ipynb](https://github.com/aghbit/Algorytmy-Geometryczne/blob/master/bitalg/visualizer/demo.ipynb)
+się w README (jeden paragraf wyżej). Dodatkowo warto zapoznać się z plikiem [demo.ipynb](https://github.com/aghbit/Algorytmy-Geometryczne/blob/master/bitalg/visualizer/demo.ipynb)
 w którym pokazane jest zastosowanie narzędzia graficznego już w samym notebooku
 
 
