@@ -191,7 +191,7 @@ Całe repozytorium składa się z sześciu folderów:
 <li>visualizer </li>
 
 #### lab1-4
-Tutaj znajdują się przygotowane notebooki które musisz wypełnic. Każdy folder odpowiada jednemu laboratorium
+Tutaj znajdują się przygotowane notebooki, które musisz wypełnic. Każdy katalog odpowiada jednemu laboratorium
 #### tests
 Kod który wykonuje testy w poszczególnych notebookach znajduje się w plikach test1.py, test2.py, test3.py, test4.py.
 Z kolei w folderach test2_tests, test3_tests, test4_tests można znaleźć pliki wejściowe i wyjściowe na podstawie których testowane są algorytmy, 
