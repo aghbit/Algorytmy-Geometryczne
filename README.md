@@ -14,48 +14,62 @@ cd Algorytmy-Geometryczne
 python3 setup.py sdist
 python3 -m pip install -e .
 ```
+Żeby móc uruchomić notebook musisz stworzyć środowisko condy:
+```
+conda create --name bit-alg python=3.9
+conda activate bit-alg
+```
+I wtedy możesz uruchomić serwer jupytera:
+```
+jupyter notebook
+```
+Po uruchomieniu go wystarczy wejść na localhost:8888 (wpisz to w przeglądarkę)
 
-## Visualizer Tutorial
-Initializing Visualizer class
+<br>
+W celu uniknięcia błędów wziązanych ze ścieżkami do różnych wersji interpreterów pythona
+sugerujemy korzystanie z Linuxa, a na Windowsie zainstalowanie WSL-a i właśnie w nim uruchamianie wszystkich komend
+
+## Przewodnik po wizualizacji
+Inicjalizowanie klasy służącej do wizualizacji
 ```python
 vis = Visualizer()
 ```
 
-Adding title
+Dodawanie tytułu
 ```python
-vis.add_title('Some title')
+vis.add_title('Jakiś Tytuł')
 ```
-Adding grid
+Dodawanie siatki
 ```python
 vis.add_grid()
 ```
 
-Adding single geometric figures
+Dodawanie pojedynczych figur geometrycznych
 ```python
 vis = Visualizer()
 
-# adding title
-vis.add_title('Some title')
+# dodawanie tytułu
+vis.add_title('Tytuł')
 
-# adding grid
+# dodawanie siatki
 vis.add_grid()
 
-# point = (x, y)
+# punkt = (x, y)
 point = (3, 7)
 
-# line_segment = ((x1, y1), (x2, y2))
+# odcinek = ((x1, y1), (x2, y2))
 line_segment = ((-1, 5), (0, 3))
 
-# polygon [(x1, y1), (x2, y2), ..., (xn, yn)]
+# wielokąt [(x1, y1), (x2, y2), ..., (xn, yn)]
 polygon = [(1, 2), (2, 5), (4, 5), (4, 2), (2, 1)]
 
-# circle = (x, y, radius)
+# koło = (x, y, radius)
 circle = (0, 7, 1)
 
-# line = ((x1, y1), (x2, y2))
+# prosta = ((x1, y1), (x2, y2))
 line = ((0, 2), (1, 5))
 
-# half_line = ((x1, y1), (x2, y2))
+# półprosta = ((x1, y1), (x2, y2))
 half_line = ((0, 0), (3, -2))
 
 vis.add_point(point)
@@ -66,69 +80,69 @@ vis.add_circle(circle, color='green')
 vis.add_half_line(half_line, color='purple')
 ```
 
-Showing img
+Wyświetlanie wykresu
 ```python
 vis.show()
 ```
-![single](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/c0b32f64-0622-47ce-9c55-52cb4bfbdb0b)
+![single](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/00361c74-80b7-47db-a5c2-17635c521d4f)
 
-Showing gif
+Wyświetlanie gifa
 ```python
 vis.show_gif(interval=300)
 ```
-![single](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/ff9ac16a-c63b-4a08-8a4f-23e6d92e1a7c)
+![single](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/e081a98f-19ae-4810-ab60-533622a2d40d)
 
-Saving img
+Zapisywanie wykresu
 ```python
 vis.save(filename='plot')
 ```
 
-Saving gif
+Zapisywanie gifa
 ```python
 vis.save_gif(filename='plot', interval=300)
 ```
 
-Clearing data
+Czyszczeine danych klasy
 ```python
 vis.clear()
 ```
 
-Adding multiple geometric figures
+Dodawanie wielu figur
 ```python
 vis = Visualizer()
 
-# point = (x, y)
+# punkt = (x, y)
 points = []
 for i in range(-5, 6):
     points.append((i, i**2))
 
-# line_segment = ((x1, y1), (x2, y2))
+# odcinek = ((x1, y1), (x2, y2))
 line_segments = []
 for i in range(1, 6):
     line_segments.append(((-i, i**2 - 1), (i, i**2 + 1)))
 
-# polygon [(x1, y1), (x2, y2), ..., (xn, yn)]
+# wielokąt [(x1, y1), (x2, y2), ..., (xn, yn)]
 polygons = [
     [(-14, -3), (-13, 0), (-11, 0), (-11, -3), (-13, -4)],
     [(-9, -10), (-6, -10), (-10, -6)],
     [(-10, -11), (-10, -15), (-15, -10), (-11, -10)]
 ]
 
-# circle = (x, y, radius)
+# okrąg = (x, y, radius)
 circles = [
     (-7, 0, 1),
     (-5, 0, 1),
     (-6, -2, 1)
 ]
 
-# line = ((x1, y1), (x2, y2))
+# prosta = ((x1, y1), (x2, y2))
 lines = [
     ((-3, 0), (-2, -3)),
     ((-3, 2), (-2, -2)),
     ((-3, 4), (-2, 1))
 ]
 
-# half_line = ((x1, y1), (x2, y2))
+# półprosta = ((x1, y1), (x2, y2))
 half_lines = [
     ((-15, 10), (-15, 20)),
     ((-15, 10), (-10, 0)),
@@ -142,9 +156,9 @@ vis.add_line(lines)
 vis.add_polygon(polygons)
 vis.add_half_line(half_lines, color='purple')
 ```
-![multiple](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/3ec7762e-4003-44ff-95f9-03ee43e24efd)
+![multiple](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/1601f760-187e-40de-a262-2d9e5b9c8035)
 
-Removing geometric figures
+Usuwanie figur geometrycznych
 ```python
 vis = Visualizer()
 
@@ -165,4 +179,27 @@ for ls in to_remove:
 
 vis.show_gif()
 ```
-![removal](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/95c5e2d9-391a-4a03-b2a3-9351f8d5e8ec)
+![removal](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/026d2e8e-a756-4448-a4b4-55a40b6063dc)
+
+## Struktura repozytorium
+Całe repozytorium składa się z sześciu folderów:
+<li>lab1</li>
+<li>lab2</li>
+<li>lab3</li>
+<li>lab4</li>
+<li>tests</li>
+<li>visualizer </li>
+
+#### lab1-4
+Tutaj znajdują się przygotowane notebooki, które musisz wypełnic. Każdy katalog odpowiada jednemu laboratorium
+#### tests
+Kod który wykonuje testy w poszczególnych notebookach znajduje się w plikach ```test1.py```, ```test2.py```, ```test3.py```, ```test4.py```.
+Z kolei w folderach test2_tests, test3_tests, test4_tests można znaleźć pliki wejściowe i wyjściowe na podstawie których testowane są algorytmy, 
+które są do napisania w ramach poszczególnych laboratoriów.
+
+#### visualizer
+Jest to katalog w którym zaimplementowane jest narzędzie graficzne. Opis korzystania z narzędzia graficznego znajduje 
+się w README (jeden paragraf wyżej). Dodatkowo warto zapoznać się z plikiem [demo.ipynb](https://github.com/aghbit/Algorytmy-Geometryczne/blob/master/bitalg/visualizer/demo.ipynb)
+w którym pokazane jest zastosowanie narzędzia graficznego już w samym notebooku
+
+
