@@ -1,7 +1,10 @@
 # Algorytmy-Geometryczne
 
+## Uwagi
+- Dla osób korzystających z systemu operacyjnego Windows, zalecamy wykorzystanie instalację wszystkiego na WSL, szczególnie przydatne, kiedy już zostały podjęte próby instalacji condy bez standardowych ścieżek instalacji lub kiedy na samym Windowsie coś nie działa
+- Czasami zdarza się, że trzeba podmienić ```python3``` na ```python```, jest to zależne od wielu czynników
+
 ## Instalacja
-(Dla osób korzystających z systemu operacyjnego Windows, zalecamy wykorzystanie instalację wszystkiego na WSL, szczególnie przydatne, kiedy już zostały podjęte próby instalacji condy bez standardowych ścieżek instalacji lub kiedy na samym Windowsie coś nie działa)
 Najpierw sklonuj repozytorium, na przykład za pomocą:
 ```
 git clone https://github.com/aghbit/Algorytmy-Geometryczne.git
