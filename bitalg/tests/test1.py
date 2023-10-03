@@ -42,7 +42,7 @@ class Test(TestCore):
             return 1, None
 
         elif test_no == 3:
-            Result = func[1]()
+            Result = func[1]((0, 0), 100, 1000)
             if len(Result) != 1000:
                 return 0, "[len: {}]".format(len(Result)), "[len: 1000]"
             for x, y in Result:
@@ -52,7 +52,7 @@ class Test(TestCore):
             return 1, None
 
         else:
-            Result = func[2]()
+            Result = func[2]((-1.0, 0.0), (1.0,0.1), 1000)
             if len(Result) != 1000:
                 return 0, "[len: {}]".format(len(Result)), "[len: 1000]"
             for x, y in Result:
