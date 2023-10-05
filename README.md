@@ -5,28 +5,27 @@
 - Czasami zdarza się, że trzeba podmienić ```python3``` na ```python```, jest to zależne od wielu czynników
 
 ## Instalacja
-Najpierw sklonuj repozytorium, na przykład za pomocą:
+Najpierw sklonuj repozytorium będąc w folderze do którego chcesz je sklonować, na przykład za pomocą:
 ```
 git clone https://github.com/aghbit/Algorytmy-Geometryczne.git
 ```
-
-Następnie uruchom:
-
-```
-cd Algorytmy-Geometryczne
-python3 setup.py sdist
-python3 -m pip install -e .
-```
-Żeby móc uruchomić notebook musisz stworzyć środowisko condy:
+Pobierz Anacondę, odpal Anaconda Prompt i przejdź do folderu Algorytmy-Geometryczne, tam stwórz środowisko:
 ```
 conda create --name bit-alg python=3.9
 conda activate bit-alg
 ```
-I wtedy możesz uruchomić serwer jupytera:
+Następnie uruchom:
+
 ```
-jupyter notebook
+python3 setup.py sdist
+python3 -m pip install -e .
 ```
-Po uruchomieniu go wystarczy wejść na localhost:8888 (wpisz to w przeglądarkę)
+Otwórz Jupyter Notebook z listy programów w Conda Navigator, pamiętaj, żeby na górze zaznaczyć Twoje środowisko (bit-alg). Jeśli nie znajduje modułu bit-alg spróbój zrestartować środowisko i jupytera:
+```
+conda deactivate
+conda activate bit-alg
+```
+
 
 <br>
 W celu uniknięcia błędów wziązanych ze ścieżkami do różnych wersji interpreterów pythona
