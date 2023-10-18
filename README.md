@@ -94,6 +94,12 @@ vis.show_gif(interval=300)
 ```
 ![single](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/e081a98f-19ae-4810-ab60-533622a2d40d)
 
+Wyrównanie osi 
+```python
+vis.axis_equal()
+```
+![plot](https://github.com/aghbit/Algorytmy-Geometryczne/assets/115979017/3a38e6bc-50db-4895-9311-d2eba3d22411)
+
 Zapisywanie wykresu
 ```python
 vis.save(filename='plot')
