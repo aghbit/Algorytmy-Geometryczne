@@ -18,6 +18,9 @@ class Visualizer:
     def add_grid(self):
         self.plot_data['grid'] = True
 
+    def axis_equal(self):
+        self.plot_data['axis_equal'] = True
+
     def add_point(self, data, **kwargs):
         point = Point(data, kwargs)
         self.data.append(point)

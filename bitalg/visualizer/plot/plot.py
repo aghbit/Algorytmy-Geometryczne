@@ -20,7 +20,11 @@ class Plot:
             if not figure.to_be_removed:
                 figure.draw(ax)
 
-        ax.autoscale()
+        if 'axis_equal' in plot_data:
+            ax.axis('equal')
+        else:
+            ax.autoscale()
+
         return fig, ax
 
     @staticmethod
@@ -47,7 +51,11 @@ class Plot:
                 frames.extend(artist)
             artists.append(frames[:])
                 
-        ax.autoscale()
+        if 'axis_equal' in plot_data:
+            ax.axis('equal')
+        else:
+            ax.autoscale()
+            
         return animation.ArtistAnimation(fig=fig, artists=artists, interval=interval, blit=True)
 
     @staticmethod
