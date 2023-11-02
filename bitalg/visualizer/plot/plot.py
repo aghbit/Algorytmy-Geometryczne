@@ -42,7 +42,7 @@ class Plot:
         for figure in data:
             if figure.to_be_removed and figure.artist:
                 first = frames.index(figure.artist[0])
-                last = frames.index(figure.artist[-1])
+                last = first + len(figure.artist) - 1
                 figure.artist = None
                 frames = frames[:first] + frames[last+1:]
             else:
