@@ -1,10 +1,4 @@
-import os
-
-from bitalg.tests.test_core import TestCore #, get_test_path
-
-def get_test_path(lab_no, task_no, test_no):
-    return f"../tests/test{lab_no}_tests/task{task_no}/test_{lab_no}_{task_no}_{test_no}"
-
+from .test_core import TestCore, get_test_path
 
 class Point:
     def __init__(self, x_cord, y_cord, eps):
@@ -25,9 +19,6 @@ class Point:
 
 
 class Test(TestCore):
-    def __init__(self):
-        super().__init__()
-
     def runtest(self, task_no, func, eps=10**(-12)):
         if task_no == 1:
             TestCore.test(self, 4, 1, self.task1_fun, func, eps)
@@ -39,7 +30,6 @@ class Test(TestCore):
     @staticmethod
     def read_data(task_no, test_no):
         """
-
         :param task_no:
         :param test_no:
         :return:
@@ -57,7 +47,6 @@ class Test(TestCore):
     @staticmethod
     def read_points(task_no, test_no):
         """
-
         :param task_no:
         :param test_no:
         :return:
