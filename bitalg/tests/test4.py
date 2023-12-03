@@ -145,7 +145,8 @@ class Test(TestCore):
             else:
                 point, id1, id2 = intersection[0], intersection[1], intersection[2]
                 point = Point(point[0], point[1], eps)
-            output_dict[point] = (min(id1, id2), max(id1, id2))
+            key = (min(id1, id2), max(id1, id2))
+            output_dict[key] = point
         return output_dict
 
     def task3_fun(self, test_no, func, eps):
