@@ -148,7 +148,6 @@ class Test(TestCore):
     def list_to_dictionary(input_list: list, eps: float):
         output_dict = {}
         for intersection in input_list:
-            # TODO dorobić try catch
             if type(intersection) == str:
                 intersection_val = intersection.split(" ")
                 x, y, id1, id2 = intersection_val[0], intersection_val[1], int(intersection_val[2]), int(intersection_val[3])
@@ -169,7 +168,6 @@ class Test(TestCore):
         test_data = self.read_points(3, test_no)
         output = open(get_test_path(4, 3, test_no) + ".out").read().split('\n')
         result = func(test_data)
-        # TODO lepsze wypisywanie info do usera
         if len(output) == 1 and output[0] == "":
             if not result:
                 return 1, None
